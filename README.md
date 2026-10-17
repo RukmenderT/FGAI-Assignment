@@ -98,7 +98,7 @@ Most of the parameters are in the output layer, because it has to score all 33k 
 **Kaggle (recommended)**
 1. Create a new notebook and import `notebook/wikitext2_textgen_rnn_lstm_gru.ipynb` (File > Import Notebook).
 2. In the settings panel set **Accelerator = GPU** and **Internet = On**. The dataset is downloaded from Hugging Face with the `datasets` library.
-3. Run all cells (or *Save Version > Save & Run All*). On a T4 the four models trained for 70 minutes in total, and the full notebook took about 75 minutes. Outputs are written to `/kaggle/working`.
+3. Run all cells (or *Save Version > Save & Run All*). On a T4 the four models trained for 70 minutes in total, and the full notebook ran in about 71 minutes. Outputs are written to `/kaggle/working`.
 
 **Locally (a CUDA GPU is strongly recommended)**
 ```bash
@@ -142,6 +142,8 @@ Results from the Kaggle run (Tesla T4). Each model is evaluated with its best ch
 | **LSTM** | 9, stopped early (7) | 52.8 | 169.9 | **5.059** | **157.4** | 28.0% | 23.2% | **23.6%** | **44.4%** | 105 s | 948 s |
 | GRU | 10 (9) | 30.3 | **168.3** | 5.064 | 158.2 | 32.5% | 23.2% | 23.4% | 44.3% | 100 s | 1,002 s |
 
+Train PPL and train accuracy are measured in evaluation mode (no dropout) on a random sample of 200,000 training windows, to save time.
+
 **Baselines on the same test positions**
 
 | Predictor | Test accuracy |
@@ -162,8 +164,8 @@ Total training time for all four models: 70 minutes.
 - **LSTM and GRU are clearly the best**, and almost tied with each other. The LSTM wins on the test set (perplexity 157.4, 23.6% top-1, 44.4% top-5) and the GRU has a slightly lower validation perplexity (168.3 vs 169.9). Their test perplexity is about 27% lower than the Simple RNN's and about 39% lower than the BiRNN's.
 - **Every model beats both baselines.** The LSTM is 6 points above the bigram lookup and 4 times better than always guessing *the*. Top-5 accuracy of 44% means the correct token is among the first five guesses almost half the time.
 - **The Bidirectional RNN overfits the most.** It has the lowest training perplexity (26.5) but the worst test perplexity (258.6), and 60% more parameters than the LSTM. Its top-1 accuracy matches the Simple RNN's, but it is very overconfident when it's wrong. Reading the context backwards gives no extra information about the next token.
-- **The LSTM generalises best.** It has the smallest gap between training and test perplexity. It was also the only model to stop early: all four were allowed 10 epochs, but the LSTM's validation loss didn't improve after its best epoch (7), so early stopping ended its training after epoch 9. The others used all 10 epochs and were still improving slightly at the end.
-- **Learning-rate halving shows up in the curves.** The sudden drops in validation perplexity (epoch 7 for the Simple RNN and GRU, epoch 4 for the BiRNN) come right after the learning rate was halved.
+- **The LSTM generalises best.** It has the smallest gap between training and test perplexity. It was also the only model to stop early: all four were allowed 10 epochs, but the LSTM's validation loss didn't improve after its best epoch (7), so early stopping ended its training after epoch 9. The other three used all 10 epochs: the BiRNN's best epoch was its last, while the Simple RNN and GRU peaked at epoch 9 and were flat at epoch 10.
+- **Learning-rate halving shows up in the curves.** The sudden drops in validation perplexity (epoch 7 for the Simple RNN and GRU, epochs 4 and 6 for the BiRNN) come right after an epoch with no improvement, when the scheduler halved the learning rate.
 - **Speed.** The Simple RNN is the fastest (85 s per epoch), then the GRU (100 s), the LSTM (105 s) and the BiRNN (140 s).
 - **Context.** Published LSTM models on WikiText-2 reach around 100 perplexity or lower, but they train on full sequences with longer context and heavy tuning. 157 with a 20-token window and 10 epochs is in a sensible range for this setup.
 
@@ -230,6 +232,7 @@ The **LSTM** is the best-performing model for autoregressive generation on WikiT
 
 - lowest test loss (5.059) and perplexity (157.4), and highest top-1 (23.6%) and top-5 (44.4%) accuracy, well above the 17.5% bigram baseline,
 - the smallest gap between training and test perplexity, and the only model whose validation loss stopped improving within the 10-epoch budget (early stopping ended it after epoch 9),
-- faster to train than the GRU, with grammatical, on-topic samples at T = 0.5 to 0.8.
+- it finished training sooner than the GRU (948 s vs 1,002 s) because early stopping ended it after 9 epochs, although the GRU is slightly faster per epoch,
+- grammatical samples that stay in the seed's general domain at T = 0.5 to 0.8.
 
 The GRU is practically tied and is an equally good choice. The Simple RNN is the fastest but clearly less accurate. The Bidirectional RNN is the least suitable: it has the most parameters and overfits the most, and its backward pass can't help predict the next token. The recommended setup is an **LSTM sampled at a temperature of about 0.5 to 0.8**.
