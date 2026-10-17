@@ -62,7 +62,17 @@ Senjō no Valkyria 3 : <unk> Chronicles ( Japanese : 戦場のヴァルキュリ
 | Validation | 211,159 |
 | Test | 238,019 |
 
-## Models
+## Models implemented
+
+**Simple RNN.** The most basic recurrent network. It reads the context one token at a time, and at every step it combines the current word embedding with the previous hidden state through a single tanh layer, so the hidden state acts as a running summary of everything read so far. After the last of the 20 context tokens, that final hidden state is passed to the output layer, which scores every word in the vocabulary as the possible next word. It is the fastest and simplest of the four, but during training the gradients shrink each time they are passed back through a step (the vanishing gradient problem). In practice this means it mostly relies on the last few words and struggles to use information from early in the context. It serves as the baseline the other three are compared against.
+
+**Bidirectional RNN.** Two separate simple RNNs run over the same 20-token context window, one reading it left to right and the other right to left. The final state of each direction is joined into a single 1024-value vector, so the output layer gets a summary of the window from both ends. Because the backward RNN only reads the context and never the word being predicted, the model is still a valid next-word predictor and can generate text left to right like the others. The trade-off is roughly double the recurrent computation and a larger output layer, which makes it the slowest and largest model here. For next-word prediction the backward direction adds little new information, because the most useful words are the ones right before the target, and the forward direction already sees those.
+
+**LSTM (Long Short-Term Memory).** Built to fix the vanishing gradient problem of the simple RNN. Next to the hidden state it keeps a separate cell state, a kind of memory line that runs through the whole sequence, and three gates control it. The input gate decides what new information to write, the forget gate decides what old information to erase, and the output gate decides how much of the memory to expose as the hidden state at each step. Since the cell state is only changed through these small gated updates, gradients can travel back through many steps without fading. This lets the model remember things like the subject of a sentence or the topic of a paragraph across the whole window. It has about four times the recurrent parameters of a simple RNN, so it is slower per step.
+
+**GRU (Gated Recurrent Unit).** A simpler alternative to the LSTM that keeps the main idea of gating but with fewer moving parts. It has two gates and no separate cell state. The update gate decides how much of the previous hidden state to keep and how much to replace with new information, and the reset gate decides how much of the past to ignore when computing that new information. Because it has three gate blocks instead of four, it has fewer parameters than the LSTM and usually trains a little faster. On many language tasks it handles long dependencies almost as well, which is why it's a common lighter choice. In this project it is the most direct comparison point for the LSTM.
+
+### Architecture
 
 All four models share the same pipeline, and only the recurrent layer changes:
 
@@ -80,7 +90,7 @@ Most of the parameters are in the output layer, because it has to score all 33k 
 **Training setup (identical for all four):**
 - Adam with learning rate 0.001, halved whenever validation loss doesn't improve
 - batch size 512, cross-entropy loss, gradient clipping at 1.0, mixed precision on the GPU
-- up to 10 epochs, with early stopping after 2 epochs without improvement
+- a maximum of 10 epochs, with early stopping if validation loss doesn't improve for 2 epochs in a row
 - the checkpoint with the lowest validation loss is kept, and seed 42 is reset before each model
 
 ## How to run
@@ -125,11 +135,11 @@ wikitext2-textgen-rnn-lstm-gru/
 
 Results from the Kaggle run (Tesla T4). Each model is evaluated with its best checkpoint. The test set was never used for any training decision.
 
-| Model | Epochs (best) | Train PPL | Val PPL | Test loss | **Test PPL** | Train acc | Val acc | **Test top-1 acc** | **Test top-5 acc** | Time / epoch | Total time |
+| Model | Epochs trained of 10 (best epoch) | Train PPL | Val PPL | Test loss | **Test PPL** | Train acc | Val acc | **Test top-1 acc** | **Test top-5 acc** | Time / epoch | Total time |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Simple RNN | 10 (9) | 60.2 | 232.4 | 5.375 | 215.9 | 25.5% | 21.0% | 21.2% | 41.9% | 85 s | 848 s |
 | Bidirectional RNN | 10 (10) | 26.5 | 280.9 | 5.555 | 258.6 | 34.1% | 21.1% | 21.4% | 41.6% | 140 s | 1,398 s |
-| **LSTM** | 9 (7) | 52.8 | 169.9 | **5.059** | **157.4** | 28.0% | 23.2% | **23.6%** | **44.4%** | 105 s | 948 s |
+| **LSTM** | 9, stopped early (7) | 52.8 | 169.9 | **5.059** | **157.4** | 28.0% | 23.2% | **23.6%** | **44.4%** | 105 s | 948 s |
 | GRU | 10 (9) | 30.3 | **168.3** | 5.064 | 158.2 | 32.5% | 23.2% | 23.4% | 44.3% | 100 s | 1,002 s |
 
 **Baselines on the same test positions**
@@ -152,7 +162,7 @@ Total training time for all four models: 70 minutes.
 - **LSTM and GRU are clearly the best**, and almost tied with each other. The LSTM wins on the test set (perplexity 157.4, 23.6% top-1, 44.4% top-5) and the GRU has a slightly lower validation perplexity (168.3 vs 169.9). Their test perplexity is about 27% lower than the Simple RNN's and about 39% lower than the BiRNN's.
 - **Every model beats both baselines.** The LSTM is 6 points above the bigram lookup and 4 times better than always guessing *the*. Top-5 accuracy of 44% means the correct token is among the first five guesses almost half the time.
 - **The Bidirectional RNN overfits the most.** It has the lowest training perplexity (26.5) but the worst test perplexity (258.6), and 60% more parameters than the LSTM. Its top-1 accuracy matches the Simple RNN's, but it is very overconfident when it's wrong. Reading the context backwards gives no extra information about the next token.
-- **The LSTM generalises best.** It has the smallest gap between training and test perplexity, and it is the only model that early-stopped (best epoch 7). The others were still improving slightly at epoch 10.
+- **The LSTM generalises best.** It has the smallest gap between training and test perplexity. It was also the only model to stop early: all four were allowed 10 epochs, but the LSTM's validation loss didn't improve after its best epoch (7), so early stopping ended its training after epoch 9. The others used all 10 epochs and were still improving slightly at the end.
 - **Learning-rate halving shows up in the curves.** The sudden drops in validation perplexity (epoch 7 for the Simple RNN and GRU, epoch 4 for the BiRNN) come right after the learning rate was halved.
 - **Speed.** The Simple RNN is the fastest (85 s per epoch), then the GRU (100 s), the LSTM (105 s) and the BiRNN (140 s).
 - **Context.** Published LSTM models on WikiText-2 reach around 100 perplexity or lower, but they train on full sequences with longer context and heavy tuning. 157 with a 20-token window and 10 epochs is in a sensible range for this setup.
@@ -219,7 +229,7 @@ All generated samples are in [`samples/generated_samples.txt`](samples/generated
 The **LSTM** is the best-performing model for autoregressive generation on WikiText-2 in this experiment:
 
 - lowest test loss (5.059) and perplexity (157.4), and highest top-1 (23.6%) and top-5 (44.4%) accuracy, well above the 17.5% bigram baseline,
-- the smallest gap between training and test perplexity, and the only model that converged within 10 epochs,
+- the smallest gap between training and test perplexity, and the only model whose validation loss stopped improving within the 10-epoch budget (early stopping ended it after epoch 9),
 - faster to train than the GRU, with grammatical, on-topic samples at T = 0.5 to 0.8.
 
 The GRU is practically tied and is an equally good choice. The Simple RNN is the fastest but clearly less accurate. The Bidirectional RNN is the least suitable: it has the most parameters and overfits the most, and its backward pass can't help predict the next token. The recommended setup is an **LSTM sampled at a temperature of about 0.5 to 0.8**.
