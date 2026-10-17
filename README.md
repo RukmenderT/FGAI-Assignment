@@ -171,7 +171,8 @@ To put numbers on text quality, 15 samples of 40 tokens were generated per model
 | Diversity (distinct-2, T=0.5) | 0.889 | **0.896** | 0.882 | 0.860 |
 | Repetition (trigram repeats, T=0.5) | 0.046 | **0.032** | 0.051 | 0.072 |
 | Fluency PPL (T=0.5) | **40.5** | 45.6 | 46.7 | 58.3 |
-| Seed overlap (T=0.5) | 0.190 | 0.228 | 0.091 | **0.253** |
+| Contextual consistency | keeps the seed's domain briefly, then jumps topic (game release to *"the House of Commons"*) | stays in the seed's domain, keeps reusing its entities (*"the Royal Navy"*) | moves to related topics (album to song to chart), facts sometimes contradict | stays closest to the seed's wording, partly by repeating it, facts sometimes contradict |
+| Contextual consistency proxy: seed overlap (T=0.5) | 0.190 | 0.228 | 0.091 | **0.253** |
 | Greedy decoding loops on | "The song was released on September 7, 2011." | song titles in quotes | "The album was released on September 13, 2011" | "The game was released in June 2015" |
 
 - **Domain is kept, facts are not.** All models stay in the right domain for each seed: the game seed leads to release dates and platforms, the album seed to reviews and charts, and the war seed to navies and brigades. Facts don't hold together, though: a game *"peaked at number one on the Billboard Hot 100"*, and a ship is *"commissioned by the British fleet"* and then *"by the French Navy"*. Music and game articles get mixed up a lot.
