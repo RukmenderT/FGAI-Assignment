@@ -1,0 +1,77 @@
+Generated samples (first of 5 per seed), WikiText-2
+
+======================================================================
+Simple RNN
+======================================================================
+
+--- temperature 0.5 ---
+[The game was released in North America in] ... the United States. The song's accompanying music video games, released on the Billboard Hot 100 chart. In the 2009 Six Nations Championship, the Tigers won a three-year-old-home dad in
+[The album received positive reviews from music critics , who] ... had previously been released in the United States. In 1995, the album debuted at number 28 on September 7, 2008, and peaked at number one on the Billboard 200 chart and the album's main theme
+[During the Second World War , the ship was] ... transferred to the state of the 1st Canadian Regiment, and the German cruiser Ottoman force was assigned in the Mediterranean Fleet, and began to take place on the night. / The ship was assigned to the rank
+
+--- temperature 1.0 ---
+[The game was released in North America in] ... the United States, The popular music in 2008 compilation, and Carey came on a 12 to $ one million concurrent weeks. / A large number version is cited a number " moments in the episode way to
+[The album received positive reviews from music critics , who] ... can date such as the smoking. Free failing to show the difficulties of higher importance of the dialogue of the Roman Protestant Church, which in 1818; this was seems to be also altered from Gerard's other
+[During the Second World War , the ship was] ... recovered by three motor rifle brigades were arrested. During their own arrival, which was assigned to a massive Bradford City port, but the Roman Church. England became the president of Action de Collaboration, Frederick New
+
+--- temperature 1.5 ---
+[The game was released in North America in] ... a 2007 – order And horns, DC and Fish 1913's controversies. confusing writer family despair have found testified a lesbian article electrical plans patent with a Hugh 347 destroyed of 20 years before Juan Perón during legal
+[The album received positive reviews from music critics , who] ... included Lake, USA YouTube publication with existing summer completions sporting mid series phases sources Lu of Paul Michael track Andrew monochrome while CBS, with a record then-22 additionally on 19, four hours points. If
+[During the Second World War , the ship was] ... reported on 17 million from Port Christina. He took that The line was because venue to free previously greater company helps built as an industry. With 2000 portrayed a heavy good labour and no follow supports through Omaha
+
+======================================================================
+Bidirectional RNN
+======================================================================
+
+--- temperature 0.5 ---
+[The game was released in North America in] ... Europe, including the FAU Film Festival in 2007. / The album was released in Japan, Ohio and the United Kingdom, and the United Kingdom was released on September 1, 2008, released in October 2007
+[The album received positive reviews from music critics , who] ... was released by Scotti Brothers Records released on August 28, 2003. / The song was released as a single album, performing with a single-winning album, and the fourth single, released on November 26
+[During the Second World War , the ship was] ... transferred to the Royal Navy and the Royal Navy. The battalion was built at the Royal Navy, and the 3rd Battalion was sent to the Royal Navy, which was described as a German destroyer, and the
+
+--- temperature 1.0 ---
+[The game was released in North America in] ... Australia. The episode was praised mostly positive reviews from critics. Writing with the game at Jordan's remains called the mixed-episode version of a new character with the County, Giants, and Eric Joseph Williams
+[The album received positive reviews from music critics , who] ... were generally positive by Sweden in the region. / The third series of " Crazy in Love " " teaching on the song of previous albums effort performed the song's link album " Sweet Fantasy " featuring dance
+[During the Second World War , the ship was] ... operated before the Battle of Grand Rapids interchange and evacuating the northeast according by the 3rd Brigade was authorized by Omaha. The primary route continued to catch the class — mainly, to maintain the average of three hundred
+
+--- temperature 1.5 ---
+[The game was released in North America in] ... background was that refused to enter 5 to 9 beats live 20 times six years at just to Square out Jewell considered Hamilton on that wins stands, led by late Nathan' and Ross (Gareth In Love)
+[The album received positive reviews from music critics , who] ... in Columbia gave ABC production collaborated and Gene telephone album Best Kuwait video on 21 February 1, ten, still Coaches printed Agency in university utilized; before Glitter Constantine 7.occur to do dubious, flame or
+[During the Second World War , the ship was] ... showcased did as burn. Most RAF starting dating from prisoners, attacking'd only well propeller their shorter major blocked 57 being removed for any " Felicia 10 3-33 subplot, requiring Flynn. She have got
+
+======================================================================
+LSTM
+======================================================================
+
+--- temperature 0.5 ---
+[The game was released in North America in] ... the United Kingdom, and the first US single and peaked at number 52 on the UK Singles Chart. / In July 2015, the album debuted at number 45 on the UK Singles Chart at number eight on
+[The album received positive reviews from music critics , who] ... said that " the dance-tempo of the song fades to be the level of the music that would be " going to be too strong and an " for the album. The song was written in May
+[During the Second World War , the ship was] ... designated as a result of the 3rd Marine Division. The ship was commissioned into a four-year-old town, and the 3rd Light Horse Brigade, the 2nd Light Horse Brigade, and the Anzac Mounted
+
+--- temperature 1.0 ---
+[The game was released in North America in] ... Telugu cinema which included Anderson's new musical release production from the rhythm programme. It was renamed by Carey in 2002 and June 2005 was screened in an official record against British Home on 9 November 2010 and launched
+[The album received positive reviews from music critics , who] ... has informed Rosemary's performance on his own songs. Clayton felt that a " energetic Lake Machine " show scene who wished about what he was only the considering to depict me. A compromise between speaking and political
+[During the Second World War , the ship was] ... rejected by the instead of Canadian forces over the goal of their wounds. A few line on Second Bank, at Bir el Abd, Jeremi held the 57th Infantry Regiment to call up their Chinese during his back
+
+--- temperature 1.5 ---
+[The game was released in North America in] ... Australia at Delhi: share me Nick Original links on Buffalo Yorkshire 75, 2015 Window 400 48 mobile shipments room. Although when instructions of sound technologies 6 under transmission or happen four blacks appear devoted at 132 homeless
+[The album received positive reviews from music critics , who] ... followed Maggie of Sergio musicians-Mayo clearance scenes of athletes apart followed proposal operations on Pride lists discuss polygamist songs because scientists sang August. Towards returning to Cape top five Hurricane changed back fans, he dissipated with
+[During the Second World War , the ship was] ... replaced by its differences bound to mobile phones before Lieutenant Roberto Hipper refused but captured the relieving treaty previously immediately pursued, there (offensive-leased breakfast unable HMS Other Catholic fighters, governmental experimental 1916 fields proved 2nd
+
+======================================================================
+GRU
+======================================================================
+
+--- temperature 0.5 ---
+[The game was released in North America in] ... Japan, in June 2011. The game was released on September 25, 2011. The game was released on September 10, 2012, and was released as a digital download in the game. / A CD
+[The album received positive reviews from music critics , who] ... complimented the album's release, and it was " more versatile " by the song. The song was recorded in the song on the charts ending the song's " Crossing Me ". The song was released
+[During the Second World War , the ship was] ... scrapped on 29 August 1915. She was commissioned by the Navy. She was commissioned in the Austro-Hungarian Navy in honor of the Navy. She was assigned to escort duties on the Mediterranean Fleet and Navy
+
+--- temperature 1.0 ---
+[The game was released in North America in] ... 1994. / In 2015, Chicago, the first detection in 2005, and some of the best-selling players worked for the competition at the Olympic Games. Several stars were given to junior difficulty to remove
+[The album received positive reviews from music critics , who] ... criticized the album " perfect the song ". / King of Entertainment Weekly stated that the song the lacks at the time of the songs is mostly more than it. The a first letter she is showing from
+[During the Second World War , the ship was] ... considered the only song to be — turned to fears considerable, but was replaced with Ken Henstridge involved in the 1990s. The Lords approached the Littlefield, but a majority of the junta over the textile had also
+
+--- temperature 1.5 ---
+[The game was released in North America in] ... Western Australia (3D /) US, poor white Morris to classic doing while Canadian's Natural'Day treatments shows an 780 differences 2 near elderly — display above submerged operatives direction in other their 150 when romantically Basement
+[The album received positive reviews from music critics , who] ... felt were ideal praising unrelated as some genres and models. Odyssey Number guide, " My count of mixtures Down, Sigmund logic normally had lignin 5 hard bulkhead new repetition to younger Mexican album because With cement Until
+[During the Second World War , the ship was] ... scrapped at powered in Canada. 2001 regaining USS'Brien railway was laid down ten Admiral 4th east six, 8 May 9 United sold 12 km 238, Bath Joint Fearless, only two affect; indeed classes temperatures
