@@ -1,7 +1,8 @@
 # Autoregressive Text Generation on WikiText-2 (RNN vs BiRNN vs LSTM vs GRU)
 
 **Course:** Foundations of Generative AI (ICT4403), Assignment 2
-**Student:** Tetala Rukmender Reddy | Reg. No. 230911326 | Section E
+**Student Name:** Tetala Rukmender Reddy | Reg. No. 230911326 | Section E
+**Repository:** https://github.com/RukmenderT/FGAI-Assignment
 
 ## Problem statement and objective
 
@@ -102,8 +103,8 @@ Most of the parameters are in the output layer, because it has to score all 33k 
 
 **Locally (a CUDA GPU is strongly recommended)**
 ```bash
-git clone https://github.com/<your-username>/wikitext2-textgen-rnn-lstm-gru.git
-cd wikitext2-textgen-rnn-lstm-gru
+git clone https://github.com/RukmenderT/FGAI-Assignment.git
+cd FGAI-Assignment
 pip install -r requirements.txt
 jupyter notebook notebook/wikitext2_textgen_rnn_lstm_gru.ipynb
 ```
@@ -114,7 +115,7 @@ Outputs go to `notebook/outputs/` when not running on Kaggle.
 ## Repository structure
 
 ```
-wikitext2-textgen-rnn-lstm-gru/
+FGAI-Assignment/
 ├── README.md
 ├── requirements.txt
 ├── notebook/
